@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios'
 import './App.css';
 
 function App() {
     const [users, setUsers] = useState<any>([])
+    const [userName, setUserName] = useState<string>('')
 
     useEffect(() => {
         getUsers()
@@ -19,7 +20,7 @@ function App() {
 
 
     const createUser = () => {
-        axios.post('http://127.0.0.1:7542/users')
+        axios.post('http://127.0.0.1:7542/users', {name: userName})
             .then((res) => {
                 if (res.data.success) {
                     getUsers()
@@ -27,12 +28,17 @@ function App() {
             })
     }
 
+    const addUserName = (e: ChangeEvent<HTMLInputElement>) => {
+        setUserName(e.currentTarget.value)
+    }
+
     return (
         <div>
+            <input type="text" placeholder={'enter user name'} value={userName} onChange={addUserName}/>
             <div>
                 {
                     users.map((user: any) => {
-                        return <div>
+                        return <div key={user.id}>
                             <p>user id: <b>{user.id}</b></p>
                             <p>user name: <b>{user.name}</b></p>
                         </div>
