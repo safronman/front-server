@@ -12,7 +12,9 @@ function App() {
 
 
     const getUsers = () => {
-        axios.get('http://127.0.0.1:7542/users')
+        const search= window.location.search
+
+        axios.get('http://127.0.0.1:7542/users' + search)
             .then((res) => {
                 setUsers(res.data)
             })
@@ -28,6 +30,13 @@ function App() {
             })
     }
 
+    const onDeleteUser = (userId: string) => {
+        axios.delete(`http://127.0.0.1:7542/users/${userId}`)
+            .then((res) => {
+                getUsers()
+            })
+    }
+
     const addUserName = (e: ChangeEvent<HTMLInputElement>) => {
         setUserName(e.currentTarget.value)
     }
@@ -35,19 +44,22 @@ function App() {
     return (
         <div>
             <input type="text" placeholder={'enter user name'} value={userName} onChange={addUserName}/>
+            <button onClick={createUser}>Create user</button>
             <div>
                 {
                     users.map((user: any) => {
-                        return <div key={user.id}>
-                            <p>user id: <b>{user.id}</b></p>
+                        return <div key={user.id} className="userWrapper">
+                            <p>user id: <b>{user._id}</b></p>
                             <p>user name: <b>{user.name}</b></p>
+                            <button onClick={() => {
+                                onDeleteUser(user._id)
+                            }}>Delete user
+                            </button>
                         </div>
                     })
                 }
             </div>
-            <button onClick={createUser}>+</button>
         </div>
-
     );
 }
 
