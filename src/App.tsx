@@ -2,6 +2,9 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios'
 import './App.css';
 
+const HEROKU_BASE_URL = 'https://vast-headland-59242.herokuapp.com'
+const LOCAL_BASE_URL = 'http://127.0.0.1:7542'
+
 function App() {
     const [users, setUsers] = useState<any>([])
     const [userName, setUserName] = useState<string>('')
@@ -14,14 +17,14 @@ function App() {
     const getUsers = () => {
         const search = window.location.search
 
-        axios.get('http://127.0.0.1:7542/users' + search)
+        axios.get(`${HEROKU_BASE_URL}/users` + search)
             .then((res) => {
                 setUsers(res.data)
             })
     }
 
     const createUser = () => {
-        axios.post('http://127.0.0.1:7542/users', {name: userName})
+        axios.post(`${HEROKU_BASE_URL}/users`, {name: userName})
             .then((res) => {
                 if (res.data.success) {
                     getUsers()
@@ -30,7 +33,7 @@ function App() {
     }
 
     const onDeleteUser = (userId: string) => {
-        axios.delete(`http://127.0.0.1:7542/users/${userId}`)
+        axios.delete(`${HEROKU_BASE_URL}/users/${userId}`)
             .then((res) => {
                 getUsers()
             })
@@ -41,7 +44,7 @@ function App() {
     }
 
     const updateUser = (name: string, id: string) => {
-        axios.put(`http://127.0.0.1:7542/users`, {name, id})
+        axios.put(`${HEROKU_BASE_URL}/users`, {name, id})
             .then((res) => {
                 getUsers()
             })
