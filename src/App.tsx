@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios'
 import './App.css';
 
-const HEROKU_BASE_URL = 'https://vast-headland-59242.herokuapp.com'
+const HEROKU_BASE_URL = 'https://whispering-harbor-34951.herokuapp.com'
 const LOCAL_BASE_URL = 'http://127.0.0.1:7542'
 
 function App() {
